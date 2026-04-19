@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../model/UserInfoModel.dart';
 class UserInfoProvider with ChangeNotifier {
@@ -7,7 +6,7 @@ class UserInfoProvider with ChangeNotifier {
   UserInfoProvider(this._userInfo);
   late String _version;
   late String _device;
-  final String _platform = '${Platform.operatingSystem} ${Platform.operatingSystemVersion}';
+  final String _platform = kIsWeb ? 'web' : defaultTargetPlatform.toString();
 
   void setUserInfo(UserInfoModel userInfo) {
     _userInfo = userInfo;

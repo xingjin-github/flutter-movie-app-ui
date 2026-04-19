@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -49,15 +48,19 @@ class LaunchPageState extends State<LaunchPage> {
        userInfoprovider.setVersion(value.version);
     });
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
+    if (kIsWeb) {
+      deviceInfo.webBrowserInfo.then((value){
+        userInfoprovider.setDevice(value.browserName.name);
+      });
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
       deviceInfo.androidInfo.then((value){
         userInfoprovider.setDevice(value.model);
       });
-    } else if (Platform.isIOS) {
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       deviceInfo.iosInfo.then((value){
         userInfoprovider.setDevice(value.model);
       });
-    }else{
+    } else {
       userInfoprovider.setDevice('Unknown');
     }
     super.initState();
